@@ -1,0 +1,119 @@
+/*First off, we need to make sure our navigation menu is behind our page content and that it stays in place even if a user scrolls:*/
+
+.navigation {
+    list-style: none;
+    background: #111;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.nav-item {
+  /* non-critical appearance styles */
+  width: 200px;
+  border-top: 1px solid #111;
+  border-bottom: 1px solid #000;
+}
+
+.nav-item a {
+  /* non-critical appearance styles */
+  display: block;
+  padding: 1em;
+  background: linear-gradient(135deg, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%);
+  color: white;
+  font-size: 1.2em;
+  text-decoration: none;
+  transition: color 0.2s, background 0.5s;
+}
+
+.nav-item a:hover {
+  color: #c74438;
+  background: linear-gradient(135deg, rgba(0,0,0,0) 0%,rgba(75,20,20,0.65) 100%);
+}
+
+/*Let’s add some styling to hide the menu until we’re ready for it. To start, let’s make sure the site’s content completely covers our menu.*/
+
+.site-wrap {
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #fff;
+    position: relative;
+    top: 0;
+    bottom: 100%;
+    left: 0;
+    z-index: 1;
+    padding: 4em;
+    background-image: linear-gradient(135deg, 
+                      rgb(254,255,255) 0%,
+                      rgb(221,241,249) 35%,
+                      rgb(160,216,239) 100%);
+    background-size: 200%;
+}
+
+/*Next we’ll add the styles that change the menu trigger from a standard checkbox input into the classic “hamburger” icon that we all know and love.
+
+Editor’s note: Originally, this code was using display: block along with zero width and height for the checkbox, to make it invisible but still accessible. It turns out, this combination was causing iOS to crash the browser when the menu was opened. I’ve changed the technique to use the clip property instead, which seems to have the same level of accessibility.
+
+Here we are hiding the checkbox using the clip property, which requires that the element be set to position: absolute.
+
+First, we set the label to position: fixed so that it stays in the same spot as the user scrolls. The top and left properties dictate how far from the edge of the viewport the icon will sit. We also make sure the trigger’s z-index is at least one higher than that of the .site-wrap element.
+*/
+
+.nav-trigger {
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+/*Now let’s style the <label> element:*/
+
+label[for="nav-trigger"] {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 2;
+    /*Next, we add additional declarati0ns to make the label into a “hamburger” icon.*/
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='6'/><rect y='24' width='30' height='6'/><rect y='12' width='30' height='6'/></svg>");
+    background-size: contain;
+    /*I’ve used inline SVG as a background image, but you can use any icon you want, including :before and :after pseudo elements to recreate the “hamburger” icon using pure CSS.
+
+Notice I’ve also included cursor: pointer; to visually indicate interactivity with cursor-based input.*/
+}
+
+.nav-trigger:checked + label {
+    left: 215px;
+}
+
+.nav-trigger:checked ~ .site-wrap {
+    left: 200px;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.5);
+}
+ 
+.nav-trigger + label, .site-wrap {
+    transition: left 0.2s;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+h1, h3, p {
+  max-width: 600px;
+  margin: 0 auto 1em;
+}
+
+code {
+    padding: 2px;
+    background: #ddd;
+}
+
+/* Micro reset */
+*,*:before,*:after{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0;}
+html, body { height: 100%; width: 100%; font-family: Helvetica, Arial, sans-serif; }
